@@ -10,9 +10,11 @@
         const root = ReactDOM.createRoot(document.getElementById("root"));
 
         // shortcut to take property out of an object
-        const Btn = ({text}) => {
+        const Btn = ({text, changeValue}) => {
+            console.log(text, "was rendered");
             return (
                 <button 
+                    onClick={changeValue}
                     style={{
                         backgroundColor: "tomato",
                         color: "white",
@@ -26,11 +28,20 @@
             )
         }
 
+        // only rerender the component that was changed
+        const MemorizedBtn = React.memo(Btn);
+
         const App = () => {
+            const [value, setValue] = React.useState("Save Changes")
+            const changeValue = () => {
+                setValue("Revert Changes");
+            }
+
+            // whatever goes in here: just a prop
             return (
                 <div>
-                    <Btn text="Save Changes"/>
-                    <Btn text="Continue"/>
+                    <MemorizedBtn text={value} changeValue={changeValue}/>
+                    <MemorizedBtn text="Continue"/>
                 </div>
             );
         }
