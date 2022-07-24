@@ -9,47 +9,28 @@
     <script type="text/babel">
         const root = ReactDOM.createRoot(document.getElementById("root"));
 
+        // shortcut to take property out of an object
+        const Btn = ({text}) => {
+            return (
+                <button 
+                    style={{
+                        backgroundColor: "tomato",
+                        color: "white",
+                        padding: "10px 20px",
+                        border: 0,
+                        borderRadius: 10,
+                    }}
+                >
+                {text}
+            </button>
+            )
+        }
+
         const App = () => {
-            let [amount, setAmount] = React.useState(0);
-            let [flipped, setFlipped] = React.useState(false);
-
-            const onChange = (event) => {
-                setAmount((current) => current = event.target.value);
-            }
-
-            const reset = () => setAmount((current) => current = 0);
-
-            const onFlipped = () => {
-                setFlipped((current) => !current);
-            }
-
             return (
                 <div>
-                    <h1 className="hi">Super Converter</h1>
-                    <div>
-                        <label htmlFor="minutes">Minutes</label>
-                        <input 
-                            value={flipped ? amount * 60 : amount} 
-                            id="minutes" 
-                            type="number" 
-                            placeholder="minutes" 
-                            onChange={onChange} 
-                            disabled={flipped === true}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="hours">Hours</label>
-                        <input 
-                            value={flipped ? amount : amount / 60}
-                            id="hours" 
-                            type="number" 
-                            placeholder="hours" 
-                            onChange={onChange}
-                            disabled={flipped === false}
-                        />
-                    </div>
-                    <button onClick={reset}>Reset</button>
-                    <button onClick={onFlipped}>Flip</button>
+                    <Btn text="Save Changes"/>
+                    <Btn text="Continue"/>
                 </div>
             );
         }
