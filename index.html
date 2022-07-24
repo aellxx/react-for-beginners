@@ -8,25 +8,52 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
         const root = ReactDOM.createRoot(document.getElementById("root"));
-        let counter = 0;
 
-        function countUp() {
-            ++counter;
-            render();
-        }
+        const App = () => {
+            let [amount, setAmount] = React.useState(0);
+            let [flipped, setFlipped] = React.useState(false);
 
-        function render() {
-            root.render(<Container />);
-        }
+            const onChange = (event) => {
+                setAmount((current) => current = event.target.value);
+            }
 
-        // create two elements using JSX -> make into a function that returns the JSX element
-        const Container = () => (
+            const reset = () => setAmount((current) => current = 0);
+
+            const onFlipped = () => {
+                setFlipped((current) => !current);
+            }
+
+            return (
                 <div>
-                    <h3>Total clicks: {counter}</h3>
-                    <button onClick={countUp}>Click me</button>
+                    <h1 className="hi">Super Converter</h1>
+                    <div>
+                        <label htmlFor="minutes">Minutes</label>
+                        <input 
+                            value={flipped ? amount * 60 : amount} 
+                            id="minutes" 
+                            type="number" 
+                            placeholder="minutes" 
+                            onChange={onChange} 
+                            disabled={flipped === true}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="hours">Hours</label>
+                        <input 
+                            value={flipped ? amount : amount / 60}
+                            id="hours" 
+                            type="number" 
+                            placeholder="hours" 
+                            onChange={onChange}
+                            disabled={flipped === false}
+                        />
+                    </div>
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={onFlipped}>Flip</button>
                 </div>
-        );
-        
-        render();
+            );
+        }
+
+        root.render(<App />)
     </script>
 </html>
