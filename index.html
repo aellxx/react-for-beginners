@@ -6,21 +6,21 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
     <script type="text/babel">
         const root = ReactDOM.createRoot(document.getElementById("root"));
 
         // shortcut to take property out of an object
-        const Btn = ({text, changeValue}) => {
-            console.log(text, "was rendered");
+        const Btn = ({text, fontSize=14}) => {
             return (
                 <button 
-                    onClick={changeValue}
                     style={{
                         backgroundColor: "tomato",
                         color: "white",
                         padding: "10px 20px",
                         border: 0,
                         borderRadius: 10,
+                        fontSize,
                     }}
                 >
                 {text}
@@ -28,20 +28,18 @@
             )
         }
 
-        // only rerender the component that was changed
-        const MemorizedBtn = React.memo(Btn);
+        // declare types 
+        Btn.propTypes = {
+            text: PropTypes.string.isRequired,
+            fontSize: PropTypes.number.isRequired,
+        };
 
         const App = () => {
-            const [value, setValue] = React.useState("Save Changes")
-            const changeValue = () => {
-                setValue("Revert Changes");
-            }
-
             // whatever goes in here: just a prop
             return (
                 <div>
-                    <MemorizedBtn text={value} changeValue={changeValue}/>
-                    <MemorizedBtn text="Continue"/>
+                    <Btn text="Save Changes" fontSize={18} />
+                    <Btn text="Continue"  fontSize={16}/>
                 </div>
             );
         }
